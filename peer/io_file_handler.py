@@ -11,7 +11,8 @@ class file_io():
         Initializes the file descriptor and lock for thread-safe file operations.
         :param file_path: Path to the file to be managed.
         """
-        self.file_descriptor = os.open(file_path, os.O_RDWR | os.O_CREAT | os.O_BINARY)
+        O_BINARY = getattr(os, 'O_BINARY', 0)  # Default to 0 on platforms like Linux/macOS
+        self.file_descriptor = os.open(file_path, os.O_RDWR | os.O_CREAT | O_BINARY)
         os.lseek(self.file_descriptor, 0, os.SEEK_SET)
         self.file_lock = Lock()  # Lock for thread-safe file operations
 
