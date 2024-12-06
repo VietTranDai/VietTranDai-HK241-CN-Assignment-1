@@ -110,6 +110,11 @@ class Handle_download():
         Distribute the list of pieces to download to each peer beforehand, 
         and then each peer downloads its assigned pieces.
         """
+        cur_bitfield = self.torrent_log.get_bitfield(self.torrent_metadata.info_hash)
+        for idx in range(len(cur_bitfield)):
+            if cur_bitfield[idx] == 1:
+                self.bitfield_pieces_downloaded.add(idx)
+
         # List of pieces that still need to be downloaded
         pieces_to_download = set(range(self.torrent_metadata.pieces_count)) - self.bitfield_pieces_downloaded
         print(f"Total pieces to download: {len(pieces_to_download)}")
